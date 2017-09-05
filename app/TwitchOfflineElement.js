@@ -1,10 +1,16 @@
 export function twitchOfflineInfoElement (data) {
   const el = document.createElement('div')
+
+
   el.setAttribute('class', 'offline-element twitchElement')
   el.setAttribute('data-isOnline', false)
   el.setAttribute('data-mature', `${data.mature}`)
   el.setAttribute('data-url', `${data.url}`)
-  el.setAttribute('style', `background-image: url(${data.profile_banner})`)
+  if (data.profile_banner) {
+    el.setAttribute('style', `background-image: url(${data.profile_banner})`)
+  } else {
+    el.setAttribute('style', "background: purple")
+  }
 
   const html = `
    <h3 class="offline-element__header">${data.display_name}</h3>
