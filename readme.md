@@ -13,6 +13,6 @@ See it in action here: http://twitcher.surge.sh/
 
 ## How to run 
 
-For the dev setup run: `yarn start`
+For the dev setup run: `yarn start`      
 Or to generate the static page run: `yarn build`
 
