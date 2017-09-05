@@ -203,6 +203,6 @@ footer {
   box-shadow: 2px 2px 4px #888888;
 }
 
-.online-element:hover {
+.twitchElement:hover {
   cursor: pointer;
 }

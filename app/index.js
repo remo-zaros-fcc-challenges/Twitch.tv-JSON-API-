@@ -75,6 +75,7 @@ function refreshElementsWhenReady (data) {
     renderElements()
     addEvents()
     clearArrays()
+    document.querySelector('#full-container').style.display = 'block'
   }
 }
 
