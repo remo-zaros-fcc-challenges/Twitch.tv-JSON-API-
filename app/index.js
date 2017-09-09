@@ -5,41 +5,39 @@ import {twitchUsers} from './TwitchUsers'
 
 const elOnline = document.querySelector('#twitchElementsOnline')
 const elOffline = document.querySelector('#twitchElementsOffline')
-const elTimer =  document.querySelector('#timer')
-const checkLoaded = checkLoadedData(twitchUsers.length);
+const elTimer = document.querySelector('#timer')
+const checkLoaded = checkLoadedData(twitchUsers.length)
 
-let dataLoadedOnline = [];
-let dataLoadedOffline = [];
-let busyUpdate = false;
+let dataLoadedOnline = []
+let dataLoadedOffline = []
+let busyUpdate = false
 
 const myHeaders = new Headers()
 myHeaders.append('Accept', 'application/vnd.twitchtv.v5+json')
 myHeaders.append('Client-ID', 'uo6dggojyb8d6soh92zknwmi5ej1q2')
-const myInit = {method: 'GET', headers: myHeaders};
+const myInit = {method: 'GET', headers: myHeaders}
 
 function checkLoadedData (totalItems) {
-  return function check(totalLoaded){
-    return totalItems === totalLoaded;
+  return function check (totalLoaded) {
+    return totalItems === totalLoaded
   }
 }
 
-function openURL(e) {
-  window.open(e.currentTarget.dataset.url,"_self")
+function openURL (e) {
+  window.open(e.currentTarget.dataset.url, '_self')
 }
 
 function addMouseOverClass (e) {
-  console.log('trrrrilllllo')
-  e.currentTarget.classList.add('mouse-over');
+  e.currentTarget.classList.add('mouse-over')
 }
 
 function removeMouseOverClass (e) {
-  console.log('elllllo')
-  e.currentTarget.classList.remove('mouse-over');
+  e.currentTarget.classList.remove('mouse-over')
 }
 
 function addEvents () {
   const els = document.querySelectorAll('.twitchElement')
-  for(let i = 0; i < els.length; i++ ) {
+  for (let i = 0; i < els.length; i++) {
     els[i].onclick = openURL
     els[i].onmouseover = addMouseOverClass
     els[i].onmouseout = removeMouseOverClass
@@ -48,7 +46,7 @@ function addEvents () {
 
 function deleteElements () {
   const els = document.querySelectorAll('.twitchElement')
-  for(let i = 0; i < els.length; i++ ) {
+  for (let i = 0; i < els.length; i++) {
     els[i].remove()
   }
 }
@@ -58,12 +56,12 @@ function sortElements () {
   dataLoadedOffline.sort((x, y) => x.followers - y.followers).reverse()
 }
 
-function renderElements() {
+function renderElements () {
   dataLoadedOnline.forEach(x => elOnline.append(twitchOnlineInfoElement(x)))
   dataLoadedOffline.forEach(x => elOffline.append(twitchOfflineInfoElement(x)))
 }
 
-function clearArrays() {
+function clearArrays () {
   dataLoadedOnline = []
   dataLoadedOffline = []
 }
@@ -81,12 +79,12 @@ function refreshElementsWhenReady (data) {
 
 function getTwitchData () {
   busyUpdate = true
-  twitchUsers.forEach( x => {
+  twitchUsers.forEach(x => {
     try {
-    fetch('https://api.twitch.tv/kraken/streams/' + x, myInit)
+      fetch('https://api.twitch.tv/kraken/streams/' + x, myInit)
       .then(response => response.json())
       .then(data => {
-        if ( data.stream === null ) {
+        if (data.stream === null) {
           fetch('https://api.twitch.tv/kraken/channels/' + x, myInit)
             .then(response => response.json())
             .then(data => {
@@ -100,28 +98,28 @@ function getTwitchData () {
           busyUpdate = false
         }
       })
-    }catch(e) {
+    } catch (e) {
       console.log(e)
     }
   })
 }
 
-let startTime = Math.round((new Date).getTime() /1000)
+let startTime = Math.round((new Date()).getTime() / 1000)
 function update () {
-  let now = Math.round((new Date).getTime() /1000)
+  let now = Math.round((new Date()).getTime() / 1000)
   let timePast = now - startTime
 
   if (!busyUpdate) {
     elTimer.innerHTML = `update in ${(120 - timePast)} secs.`
-  }else{
+  } else {
     elTimer.innerHTML = `updating...`
   }
-  if ( timePast > 120 ) {
-    startTime = Math.round((new Date).getTime() /1000)
+  if (timePast > 120) {
+    startTime = Math.round((new Date()).getTime() / 1000)
     getTwitchData()
   }
   window.requestAnimationFrame(update)
 }
 
 getTwitchData()
-update();
+update()

@@ -1,7 +1,6 @@
 export function twitchOfflineInfoElement (data) {
   const el = document.createElement('div')
 
-
   el.setAttribute('class', 'offline-element twitchElement')
   el.setAttribute('data-isOnline', false)
   el.setAttribute('data-mature', `${data.mature}`)
@@ -9,7 +8,7 @@ export function twitchOfflineInfoElement (data) {
   if (data.profile_banner) {
     el.setAttribute('style', `background-image: url(${data.profile_banner})`)
   } else {
-    el.setAttribute('style', "background: purple")
+    el.setAttribute('style', 'background: purple')
   }
 
   const html = `
